@@ -1,6 +1,9 @@
-FROM python:3.8
-WORKDIR /app
-COPY requirements.txt /app/requirements.txt
-RUN pip3 install update && pip3 install -r requirements.txt 
+FROM python:3
+
+
+WORKDIR /usr/src/app
+COPY requirements.txt ./requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt 
 COPY . .
-CMD ["python3", "app.py"]
+CMD ["gunicorn", "-c", "app.py", "--bind", "0.0.0.0:5000", "app:app"]
