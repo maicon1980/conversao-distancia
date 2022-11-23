@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: conversao-distance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: convert-distance
+  template:
+    metadata:
+      labels:
+        app: convert-distance
+    spec:
+      containers:
+        - name: convert-distance
+          image: maiconnf1980/conv-distance 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversao-distance
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30082
+  selector:
+    app: convert-distance
